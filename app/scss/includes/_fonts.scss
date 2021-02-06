@@ -1,0 +1,19 @@
+/* @import must be at top of file, otherwise CSS will not work */
+@import url("//hello.myfonts.net/count/3d1283");
+  
+@font-face {
+  font-family: 'LFTEtica-SemiBold';
+  src: url('../assets/fonts/LFTEtica-SemiBold/font.woff2') format('woff2'), url('../assets/fonts/LFTEtica-SemiBold/font.woff') format('woff');
+}
+@font-face {
+  font-family: 'LFTEticaCondensed-Bold';
+  src: url('../assets/fonts/LFTEticaCondensed-Bold/font.woff2') format('woff2'), url('../assets/fonts/LFTEticaCondensed-Bold/font.woff') format('woff');
+}
+@font-face {
+  font-family: 'LFTEticaCompressed-ExtraBold';
+  src: url('../assets/fonts/LFTEticaCompressed-ExtraBold/font.woff2') format('woff2'), url('../assets/fonts/LFTEticaCompressed-ExtraBold/font.woff') format('woff');
+}
+
+$regular_font: 'LFTEtica-SemiBold', sans-serif;
+$condensed_font: 'LFTEticaCondensed-Bold', sans-serif;
+$compressed_font: 'LFTEticaCompressed-ExtraBold', sans-serif;
