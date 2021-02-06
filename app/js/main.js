@@ -6,8 +6,8 @@
 // import 'regenerator-runtime';
 
 import $ from 'jquery';
-import Core from './scripts/Core';
-import Editor from './scripts/Editor';
+import Core from './tweentime/Core';
+import Editor from './tweentime/Editor';
 import app from './app/global';
 
 app.verbose = true;

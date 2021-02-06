@@ -10,8 +10,8 @@ const distDir = path.resolve(__dirname, '..', '_site');
 
 const entry = {
   mainjs: './js/main.js',
-  core: './js/scripts/Core.js',
-  editor: './js/scripts/Editor.js',
+  core: './js/tweentime/Core.js',
+  editor: './js/tweentime/Editor.js',
   styles: './scss/main.scss',
   critical: './scss/critical.scss',
   tweentime: './scss/tweentime/editor.sass'
@@ -48,7 +48,7 @@ const plugins = [
 
   new CopyWebpackPlugin({
     patterns: [
-      { from: 'js/scripts/draggable-number.js/dist/draggable-number.min.js', to: 'js/draggable-number.js' }
+      { from: 'js/tweentime/draggable-number.js/dist/draggable-number.min.js', to: 'js/draggable-number.js' }
     ]
   }),
 
