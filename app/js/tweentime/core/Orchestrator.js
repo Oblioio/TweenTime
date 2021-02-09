@@ -65,7 +65,8 @@ export default class Orchestrator {
       var property = item.properties[property_key];
       if (property.keys.length) {
         // Take the value of the first key as initial value.
-        // this.todo: update this when the value of the first key change. (when rebuilding the timeline, simply delete item.values before item._timeline)
+        // this.todo: update this when the value of the first key change. 
+        // (when rebuilding the timeline, simply delete item.values before item._timeline)
         property.val = property.keys[0].val;
       }
       item.values[property.name] = property.val;
@@ -105,7 +106,10 @@ export default class Orchestrator {
         // item._timeline.clear();
 
         for (let property_key = 0; property_key < item.properties.length; property_key++) {
+          console.log('item is dirty!');
           let property = item.properties[property_key];
+          // if timeline exists, clear it
+          // otherwise create a new timeline
           if (property._timeline) {
             property._timeline.clear();
           }
@@ -134,9 +138,9 @@ export default class Orchestrator {
           var first_key = property.keys[0];
 
           var tween_time = 0;
-          if (first_key) {
-            tween_time = Math.min(-1, first_key.time - 0.1);
-          }
+          // if (first_key) {
+          //   tween_time = Math.min(-1, first_key.time - 0.1);
+          // }
 
           var tween_duration = 0;
           var val = {};

@@ -310,6 +310,7 @@ function siteIsIn() {
     window.requestAnimationFrame(animate);
   }
 
+  tweenTime.timer.play();
   animate();
 }
 

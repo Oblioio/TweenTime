@@ -103,6 +103,6 @@ export default class UndoManager {
 
       tweenTime.data[item_key]._isDirty = true;
     }
-    this.editor.render(false, true);
+    this.editor.render(false, true, true);
   }
 }
