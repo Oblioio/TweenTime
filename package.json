@@ -10,7 +10,7 @@
   "scripts": {
     "build": "SITE_ENV=prod npx @11ty/eleventy && webpack --env production",
     "dev": "concurrently --kill-others \"npx @11ty/eleventy --watch\" \"webpack serve --host=0.0.0.0 --env development\"",
-    "analyze": "webpack --profile --json --env.development > stats.json; webpack-bundle-analyzer stats.json"
+    "analyze": "webpack --profile --json --env development > stats.json; webpack-bundle-analyzer stats.json"
   },
   "eslintIgnore": [
     "app/js/vendor/"

@@ -5,10 +5,11 @@
 // import 'core-js/features/promise';
 // import 'regenerator-runtime';
 
-import $ from 'jquery';
+// import $ from 'jquery';
 import Core from './tweentime/Core';
 import Editor from './tweentime/Editor';
 import app from './app/global';
+import gsap from 'gsap';
 
 app.verbose = true;
 app.debug = window.location.hash === '#debug';
@@ -91,6 +92,21 @@ function siteIsIn() {
           "keys": [
             {
               "time": 0,
+              "val": 100
+            },
+            {
+              "time": 0.1,
+              "val": 200,
+              "ease": "Quart.easeInOut"
+            }
+          ],
+          "val": 0
+        },
+        {
+          "name": "x",
+          "keys": [
+            {
+              "time": 0.1,
               "val": 0
             },
             {
@@ -142,153 +158,6 @@ function siteIsIn() {
       ]
     }
   ];
-  // var data = [
-  //   {
-  //     "id": "box",
-  //     "type": "box",
-  //     "label": "Box 1",
-  //     "start": 0,
-  //     "end": 4,
-  //     "properties": [
-  //       {
-  //         "name": "x",
-  //         "keys": [
-  //           {
-  //             "time": 0,
-  //             "val": 0
-  //           },
-  //           {
-  //             "time": 2,
-  //             "val": 100,
-  //             "ease": "Quart.easeInOut"
-  //           }
-  //         ],
-  //         "val": 0
-  //       },
-  //       {
-  //         "name": "y",
-  //         "keys": [
-  //           {
-  //             "time": 0,
-  //             "val": 0,
-  //             "ease": "Quad.easeOut"
-  //           },
-  //           {
-  //             "time": 0.9870000000000003,
-  //             "val": 50,
-  //             "ease": [
-  //               0.14184397163120563,
-  //               0.9105263157894737,
-  //               0.6271529888551163,
-  //               1.1105263157894736
-  //             ]
-  //           },
-  //           {
-  //             "time": 2.006,
-  //             "val": 0,
-  //             "ease": [
-  //               0.9254170755642788,
-  //               0.3157894736842105,
-  //               0.2051030421982333,
-  //               0.9473684210526315
-  //             ]
-  //           }
-  //         ],
-  //         "val": 0
-  //       },
-  //       {
-  //         "name": "opacity",
-  //         "keys": [
-  //           {
-  //             "time": 1.214,
-  //             "val": 1
-  //           },
-  //           {
-  //             "time": 3.98,
-  //             "val": 0,
-  //             "ease": "Quad.easeOut"
-  //           }
-  //         ],
-  //         "val": 1,
-  //         "min": 0,
-  //         "max": 1
-  //       }
-  //     ],
-  //     "values": {
-  //       "x": 0,
-  //       "y": 0,
-  //       "opacity": 1
-  //     }
-  //   },
-  //   {
-  //     "id": "box2",
-  //     "type": "box",
-  //     "label": "Box 2",
-  //     "start": 0,
-  //     "end": 4.3,
-  //     "collapsed": true,
-  //     "properties": [
-  //       {
-  //         "name": "x",
-  //         "keys": [
-  //           {
-  //             "time": 0,
-  //             "val": 0
-  //           },
-  //           {
-  //             "time": 2,
-  //             "val": 300,
-  //             "ease": "Quart.easeInOut"
-  //           }
-  //         ],
-  //         "val": 0
-  //       },
-  //       {
-  //         "name": "y",
-  //         "keys": [
-  //           {
-  //             "time": 0,
-  //             "val": 0,
-  //             "ease": "Quad.easeOut"
-  //           },
-  //           {
-  //             "time": 0.9870000000000003,
-  //             "val": 50,
-  //             "ease": "Cubic.easeInOut"
-  //           },
-  //           {
-  //             "time": 2.006,
-  //             "val": 0,
-  //             "ease": "Quad.easeInOut"
-  //           }
-  //         ],
-  //         "val": 0
-  //       },
-  //       {
-  //         "name": "opacity",
-  //         "keys": [
-  //           {
-  //             "time": 1.214,
-  //             "val": 1
-  //           },
-  //           {
-  //             "time": 4.2,
-  //             "val": 0,
-  //             "ease": "Quad.easeOut"
-  //           }
-  //         ],
-  //         "val": 1,
-  //         "min": 0,
-  //         "max": 1
-  //       }
-  //     ],
-  //     "values": {
-  //       "x": 0,
-  //       "y": 0,
-  //       "opacity": 1
-  //     }
-  //   }
-  // ];
 
   var tweenTime = new Core(data);
   var editor = new Editor(tweenTime);
@@ -297,20 +166,24 @@ function siteIsIn() {
   var box2_values = tweenTime.getValues('box2');
 
   function animate() {
-    $('.box--blue').css({
-      'opacity': box_values.opacity,
-      'transform': 'translate(' + box_values.x + 'px, ' + box_values.y + 'px)'
-    });
+    gsap.set('.box--blue', { alpha: box_values.opacity, x: `${box_values.x}px`, y: `${box_values.y}px` });
+    gsap.set('.box--red', { alpha: box2_values.opacity, x: `${box2_values.x}px`, y: `${box2_values.y}px` });
+    // $('.box--blue').css({
+    //   'opacity': box_values.opacity,
+    //   'transform': 'translate(' + box_values.x + 'px, ' + box_values.y + 'px)'
+    // });
 
-    $('.box--red').css({
-      'opacity': box2_values.opacity,
-      'transform': 'translate(' + box2_values.x + 'px, ' + box2_values.y + 'px)'
-    });
+    // $('.box--red').css({
+    //   'opacity': box2_values.opacity,
+    //   'transform': 'translate(' + box2_values.x + 'px, ' + box2_values.y + 'px)'
+    // });
 
     window.requestAnimationFrame(animate);
   }
 
   animate();
+
+  window.thetimer = tweenTime.timer;
 }
 
 function init() {

@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import Utils from './core/Utils';
 import Timer from './core/Timer';
 import Orchestrator from './core/Orchestrator';
@@ -34,7 +33,7 @@ class Core {
       return item_id;
     }
 
-    return _.find(this.data, (item) => item.id === item_id);
+    return Utils.find(this.data, (item) => item.id === item_id);
   }
 
   getCurrentTime() {
@@ -50,7 +49,7 @@ class Core {
       return false;
     }
 
-    return _.find(item.properties, property => property.name === prop_name);
+    return Utils.find(item.properties, property => property.name === prop_name);
   }
 
   getValues(item_id_or_obj) {
@@ -81,7 +80,7 @@ class Core {
   }
 
   getKeyAt(property, time_in_seconds) {
-    return _.find(property.keys, key => key.time === time_in_seconds);
+    return Utils.find(property.keys, key => key.time === time_in_seconds);
   }
 
   setValue(property, new_val, time_in_seconds = false) {

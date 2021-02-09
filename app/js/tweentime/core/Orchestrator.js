@@ -135,7 +135,7 @@ export default class Orchestrator {
 
           var tween_time = 0;
           if (first_key) {
-            tween_time = Math.min(-1, first_key.time - 0.1);
+            // tween_time = Math.min(-1, first_key.time - 0.1);
           }
 
           var tween_duration = 0;

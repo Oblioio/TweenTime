@@ -60,7 +60,7 @@ const plugins = [
 ];
 
 module.exports = (env) => {
-  console.log('IS THIS PRODUCTION', env.production);
+  // console.log('IS THIS PRODUCTION', env.production);
 
   const options = {
     mode: 'production',

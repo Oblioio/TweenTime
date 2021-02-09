@@ -118,4 +118,14 @@ export default class Utils {
     }
     return EASE_POINTS['Quad.easeInOut'].slice(0);
   }
+
+  static find(arr, fn) {
+    for (let i = 0; i < arr.length; i++) {
+      const item = arr[i];
+      if (fn(item)) return item;
+    }
+
+    console.log('item not found');
+    return false;
+  }
 }

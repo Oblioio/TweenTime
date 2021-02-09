@@ -36,6 +36,7 @@ export default class Timer {
     window.setTimeout(() => {
       this.is_playing = true;
       this.statusChanged.dispatch(this.is_playing);
+      console.log('PLAY');
     }, 0);
   }
 
