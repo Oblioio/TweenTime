@@ -181,6 +181,7 @@ function siteIsIn() {
     window.requestAnimationFrame(animate);
   }
 
+  tweenTime.timer.play();
   animate();
 
   window.thetimer = tweenTime.timer;
