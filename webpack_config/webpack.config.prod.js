@@ -10,7 +10,6 @@ const distDir = path.resolve(__dirname, '..', '_site');
 
 const entry = {
   mainjs: './js/main.js',
-  core: './js/tweentime/Core.js',
   editor: './js/tweentime/Editor.js',
   styles: './scss/main.scss',
   critical: './scss/critical.scss',
