@@ -47,13 +47,11 @@ export default class Timeline {
     this.lineHeight = 20;
     this.label_position_x = -margin.left + 20;
 
-    this.x = d3.time.scale()
+    this.x = d3.scaleTime()
       .domain(this.initialDomain)
       .range([0, width]);
 
-    this.xAxis = d3.svg.axis()
-      .scale(this.x)
-      .orient('top')
+    this.xAxis = d3.axisTop(this.x)
       .tickSize(-height, 0)
       .tickFormat(Utils.formatMinutes);
 
@@ -101,12 +99,10 @@ export default class Timeline {
       this.render(0, false);
     });
 
-    this.xAxisGrid = d3.svg.axis()
-      .scale(this.x)
+    this.xAxisGrid = d3.axisTop(this.x)
       .ticks(100)
       .tickSize(-this.items.dy, 0)
-      .tickFormat('')
-      .orient('top');
+      .tickFormat('');
 
     this.xGrid = this.svgContainer.append('g')
       .attr('class', 'x axis grid')

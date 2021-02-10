@@ -16,12 +16,12 @@ export default class Items {
     const tweenTime = self.timeline.tweenTime;
     const editor = self.timeline.editor;
 
-    const selectBar = function(data) {
+    const selectBar = function(event, data) {
       self.timeline.selectionManager.select(data);
     };
 
-    const dragmove = function(d) {
-      const dx = self.timeline.x.invert(d3.event.x).getTime() / 1000;
+    const dragmove = function(event, d) {
+      const dx = self.timeline.x.invert(event.x).getTime() / 1000;
       const diff = dx - d.start;
       d.start += diff;
       d.end += diff;
@@ -38,10 +38,10 @@ export default class Items {
       self.onUpdate.dispatch();
     };
 
-    const dragmoveLeft = function(d) {
-      d3.event.sourceEvent.stopPropagation();
-      var sourceEvent = d3.event.sourceEvent;
-      var dx = self.timeline.x.invert(d3.event.x).getTime() / 1000;
+    const dragmoveLeft = function(event, d) {
+      event.sourceEvent.stopPropagation();
+      var sourceEvent = event.sourceEvent;
+      var dx = self.timeline.x.invert(event.x).getTime() / 1000;
       var timeMatch = false;
       if (sourceEvent.shiftKey) {
         timeMatch = Utils.getClosestTime(tweenTime.data, dx, d.id, false, tweenTime.timer);
@@ -55,10 +55,10 @@ export default class Items {
       self.onUpdate.dispatch();
     };
 
-    const dragmoveRight = function(d) {
-      d3.event.sourceEvent.stopPropagation();
-      var sourceEvent = d3.event.sourceEvent;
-      var dx = self.timeline.x.invert(d3.event.x).getTime() / 1000;
+    const dragmoveRight = function(event, d) {
+      event.sourceEvent.stopPropagation();
+      var sourceEvent = event.sourceEvent;
+      var dx = self.timeline.x.invert(event.x).getTime() / 1000;
       var timeMatch = false;
       if (sourceEvent.shiftKey) {
         timeMatch = Utils.getClosestTime(tweenTime.data, dx, false, false, tweenTime.timer);
@@ -72,22 +72,22 @@ export default class Items {
       self.onUpdate.dispatch();
     };
 
-    const dragLeft = d3.behavior.drag()
-      .origin(function() {
+    const dragLeft = d3.drag()
+      .subject(function() {
         var t = d3.select(this);
         return {x: t.attr('x'), y: t.attr('y')};
       })
       .on('drag', dragmoveLeft);
 
-    const dragRight = d3.behavior.drag()
-      .origin(function() {
+    const dragRight = d3.drag()
+      .subject(function() {
         var t = d3.select(this);
         return {x: t.attr('x'), y: t.attr('y')};
       })
       .on('drag', dragmoveRight);
 
-    const drag = d3.behavior.drag()
-      .origin(function() {
+    const drag = d3.drag()
+      .subject(function() {
         var t = d3.select(this);
         return {x: t.attr('x'), y: t.attr('y')};
       })
@@ -101,16 +101,12 @@ export default class Items {
       .append('g').attr('class', 'line-grp');
 
     const barContainerRight = barEnter.append('svg')
-      .attr({
-        class: 'timeline__right-mask',
-        width: window.innerWidth - self.timeline.label_position_x
-      });
+      .attr('class', 'timeline__right-mask')
+      .attr('width', window.innerWidth - self.timeline.label_position_x);
 
     bar.select('.timeline__right-mask')
-      .attr({
-        display: () => self.timeline.editor.curveEditEnabled ? 'none' : 'block',
-        height: (d) => (d.properties.length + 1) * self.timeline.lineHeight
-      });
+      .attr('display', () => self.timeline.editor.curveEditEnabled ? 'none' : 'block')
+      .attr('height', (d) => (d.properties.length + 1) * self.timeline.lineHeight);
 
     barContainerRight.append('rect')
       .attr('class', 'bar')
@@ -164,19 +160,19 @@ export default class Items {
     bar.selectAll('.bar-anchor--left')
       .filter(barWithStartAndEnd)
       .attr('x', (d) => {return self.timeline.x(d.start * 1000) - 1;})
-      .on('mousedown', function() {
+      .on('mousedown', function(event) {
         // Don't trigger mousedown on linescontainer else
         // it create the selection rectangle
-        d3.event.stopPropagation();
+        event.stopPropagation();
       });
 
     bar.selectAll('.bar-anchor--right')
       .filter(barWithStartAndEnd)
       .attr('x', (d) => {return self.timeline.x(d.end * 1000) - 1;})
-      .on('mousedown', function() {
+      .on('mousedown', function(event) {
         // Don't trigger mousedown on linescontainer else
         // it create the selection rectangle
-        d3.event.stopPropagation();
+        event.stopPropagation();
       });
 
     bar.selectAll('.bar')
@@ -187,10 +183,10 @@ export default class Items {
       })
       .call(drag)
       .on('click', selectBar)
-      .on('mousedown', function() {
+      .on('mousedown', function(event) {
         // Don't trigger mousedown on linescontainer else
         // it create the selection rectangle
-        d3.event.stopPropagation();
+        event.stopPropagation();
       });
 
     barEnter.append('text')
@@ -199,17 +195,17 @@ export default class Items {
       .attr('y', 16)
       .text((d) => {return d.label;})
       .on('click', selectBar)
-      .on('mousedown', function() {
+      .on('mousedown', function(event) {
         // Don't trigger mousedown on linescontainer else
         // it create the selection rectangle
-        d3.event.stopPropagation();
+        event.stopPropagation();
       });
 
     barEnter.append('text')
       .attr('class', 'line__toggle')
       .attr('x', self.timeline.label_position_x - 10)
       .attr('y', 16)
-      .on('click', function(d) {
+      .on('click', function(event, d) {
         d.collapsed = !d.collapsed;
         self.onUpdate.dispatch();
       });

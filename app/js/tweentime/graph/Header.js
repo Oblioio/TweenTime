@@ -14,16 +14,14 @@ export default class Header {
     this.height = 50 - this.margin.top - this.margin.bottom + 20;
 
     this.currentTime = this.timer.time;
-    this.x = d3.time.scale().range([0, width]);
+    this.x = d3.scaleTime().range([0, width]);
     this.x.domain([0, this.timer.totalDuration]);
 
     // Same as this.x from timeline
-    this.xDisplayed = d3.time.scale().range([0, width]);
+    this.xDisplayed = d3.scaleTime().range([0, width]);
     this.xDisplayed.domain(this.initialDomain);
 
-    this.xAxis = d3.svg.axis()
-      .scale(this.x)
-      .orient('top')
+    this.xAxis = d3.axisTop(this.x)
       .tickSize(-5, 0)
       .tickFormat(Utils.formatMinutes);
 
@@ -52,6 +50,7 @@ export default class Header {
   }
 
   setDomain() {
+    console.log('THIS BRUSH IS', this.brush.x, this.x, this.brush);
     this.brush.x(this.x).extent(this.initialDomain);
     this.svgContainer.select('.brush').call(this.brush);
     // Same as onBrush
@@ -74,6 +73,7 @@ export default class Header {
       .call(this.xAxis);
 
     var onBrush = () => {
+      console.log('ON BRUSH');
       var extent0 = this.brush.extent();
       // Get domain as milliseconds and not date.
       var start = extent0[0].getTime();
@@ -84,9 +84,8 @@ export default class Header {
       this.setDomain(this.initialDomain);
     };
 
-    this.brush = d3.svg.brush()
-      .x(this.x)
-      .extent(this.initialDomain)
+    this.brush = d3.brushX(this.x)
+      .extent([[0, 0], this.initialDomain])
       .on('brush', onBrush);
 
     this.gBrush = this.svgContainer.append('g')
@@ -104,9 +103,8 @@ export default class Header {
   createTimeHandle() {
     var self = this;
 
-    var dragTimeMove = function() {
-      var event = d3.event.sourceEvent;
-      event.stopPropagation();
+    var dragTimeMove = function(event) {
+      event.sourceEvent.stopPropagation();
       var tweenTime = self.tweenTime;
       var event_x = event.x !== undefined ? event.x : event.clientX;
       var dx = self.xDisplayed.invert(event_x - self.margin.left);
@@ -127,8 +125,8 @@ export default class Header {
       self.timer.seek([timeMatch]);
     };
 
-    var dragTime = d3.behavior.drag()
-      .origin(function(d) {
+    var dragTime = d3.drag()
+      .subject(function(d) {
         return d;
       })
       .on('drag', dragTimeMove);
@@ -141,8 +139,8 @@ export default class Header {
       .attr('width', self.xDisplayed(self.timer.totalDuration))
       .attr('height', 50)
       .attr('fill-opacity', 0)
-      .on('click', function() {
-        var mouse = d3.mouse(this);
+      .on('click', function(event) {
+        var mouse = d3.pointer(event);
         var dx = self.xDisplayed.invert(mouse[0]);
         dx = dx.getTime();
         dx = Math.max(0, dx);

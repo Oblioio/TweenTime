@@ -1,5 +1,6 @@
 import $ from 'jquery';
 
+import Mustache from 'mustache';
 import tpl_property from '../templates/propertyFooter.tpl.html';
 
 export default class PropertyFooter {
@@ -35,7 +36,7 @@ export default class PropertyFooter {
       time: this.key_val.time.toFixed(3)
     };
 
-    this.$el = $(tpl_property.render(data));
+    this.$el = $(Mustache.render(tpl_property, data));
     this.$time = this.$el.find('.property__key-time strong');
     this.$time.keypress((e) => {
       if (e.charCode === 13) {

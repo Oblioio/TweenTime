@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import PropertyBase from './PropertyBase';
 
+import Mustache from 'mustache';
 import tpl_property from '../templates/propertyEvent.tpl.html';
 
 export default class PropertyEvent extends PropertyBase {
@@ -23,7 +24,7 @@ export default class PropertyEvent extends PropertyBase {
       val: val
     };
 
-    let view = tpl_property.render(data);
+    let view = Mustache.render(tpl_property, data);
     this.$el = $(view);
 
     var $input = this.$el.find('input');

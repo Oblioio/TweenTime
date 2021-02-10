@@ -8,6 +8,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
+    "start": "concurrently --kill-others \"npx @11ty/eleventy --watch\" \"snowpack dev --reload\"",
     "build": "SITE_ENV=prod npx @11ty/eleventy && webpack --env production",
     "dev": "concurrently --kill-others \"npx @11ty/eleventy --watch\" \"webpack serve --host=0.0.0.0 --env development\"",
     "analyze": "webpack --profile --json --env development > stats.json; webpack-bundle-analyzer stats.json"
@@ -21,11 +22,12 @@
   "dependencies": {
     "bezier-easing": "^2.1.0",
     "core-js": "^3.6.5",
-    "d3": "^3.5.17",
+    "d3": "^6.5.0",
     "file-saver": "^2.0.5",
     "gsap": "^3.6.0",
     "jquery": "^3.5.1",
     "lodash": "^4.17.20",
+    "mustache": "^2.3.2",
     "signals": "^1.0.0",
     "smooth-scrollbar": "^8.5.3",
     "spectrum-colorpicker": "^1.8.1",
@@ -58,6 +60,10 @@
     "precss": "^4.0.0",
     "raw-loader": "^4.0.2",
     "sass-loader": "^10.0.5",
+    "snowpack": "^3.0.11",
+    "snowpack-plugin-raw": "^1.0.0",
+    "snowpack-plugin-raw-file-loader": "^1.0.9",
+    "snowpack-plugin-rawloader": "^0.0.1",
     "style-loader": "^2.0.0",
     "terser": "^5.3.8",
     "terser-webpack-plugin": "^5.0.3",

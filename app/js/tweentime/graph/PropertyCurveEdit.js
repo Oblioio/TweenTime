@@ -175,12 +175,10 @@ export default class PropertyCurveEdit {
 
     properties.enter()
       .append('g')
-      .attr({
-        class: 'curves-preview',
-        transform: 'translate(0,10)',
-        width: window.innerWidth - self.timeline.label_position_x,
-        height: 300
-      });
+      .attr('class', 'curves-preview')
+      .attr('transform', 'translate(0,10)')
+      .attr('width', window.innerWidth - self.timeline.label_position_x)
+      .attr('height', 300);
 
     properties.exit().remove();
 
@@ -190,11 +188,9 @@ export default class PropertyCurveEdit {
 
     curves.enter()
       .append('path')
-      .attr({
-        class: 'curve',
-        fill: 'none',
-        stroke: '#aaa'
-      });
+      .attr('class', 'curve')
+      .attr('fill', 'none')
+      .attr('stroke', '#aaa');
 
     curves.attr('d', (d) => d.path);
 
@@ -215,8 +211,8 @@ export default class PropertyCurveEdit {
       .data(pointVal, pointKey);
 
     // Handle line.
-    const dragHandleStart = function(d) {
-      var event = d3.event;
+    const dragHandleStart = function(event, d) {
+      var event = event;
       // with dragstart event the mousevent is is inside the event.sourcEvent
       if (event.sourceEvent) {
         event = event.sourceEvent;
@@ -226,8 +222,8 @@ export default class PropertyCurveEdit {
       d._dom = this;
     };
 
-    const dragHandleMove = function(d) {
-      var sourceEvent = d3.event.sourceEvent;
+    const dragHandleMove = function(event, d) {
+      var sourceEvent = event.sourceEvent;
 
       const point = d.handle._next;
       const prev = d.handle._prev;
@@ -240,7 +236,7 @@ export default class PropertyCurveEdit {
       const ease = Utils.getEasingPoints(point.ease);
       const timeBetweenPrevNext = key.time - prev._key.time;
 
-      const mouse = d3.mouse(this);
+      const mouse = d3.pointer(event);
       const old_time = key.time;
       let dx = self.timeline.x.invert(mouse[0]);
       dx = dx.getTime() / 1000;
@@ -270,63 +266,54 @@ export default class PropertyCurveEdit {
 
     };
 
-    const dragHandle = d3.behavior.drag()
-      .origin((d) => {return d;})
+    const dragHandle = d3.drag()
+      .subject((d) => {return d;})
       .on('drag', dragHandleMove)
-      .on('dragstart', dragHandleStart)
-      .on('dragend', dragHandleEnd);
+      .on('start', dragHandleStart)
+      .on('end', dragHandleEnd);
 
     handleLine.enter()
       .append('line')
-      .attr({
-        class: 'curve__handle-line',
-        fill: 'none'
-      });
+      .attr('class', 'curve__handle-line')
+      .attr('fill', 'none');
 
-    handleLine.attr({
-      x1: (d) => d.point.x,
-      y1: (d) => d.point.y,
-      x2: (d) => d.handle.x,
-      y2: (d) => d.handle.y
-    });
+    handleLine
+      .attr('x1', (d) => d.point.x)
+      .attr('y1', (d) => d.point.y)
+      .attr('x2', (d) => d.handle.x)
+      .attr('y2', (d) => d.handle.y);
 
     handleLine.exit().remove();
 
     // The key point.
     points.enter()
       .append('circle')
-      .attr({
-        class: 'curve__point',
-        fill: '#fff',
-        r: 4
-      });
+      .attr('class', 'curve__point')
+      .attr('fill', '#fff')
+      .attr('r', 4);
 
-    points.attr({
-      cx: (d) => d.x,
-      cy: (d) => d.y
-    });
+    points
+      .attr('cx', (d) => d.x)
+      .attr('cy', (d) => d.y);
 
     points.exit().remove();
 
     // Handle point.
     handle.enter()
       .append('circle')
-      .attr({
-        class: 'curve__handle',
-        fill: '#aaa',
-        r: 4
-      })
-      .on('mousedown', function() {
+      .attr('class', 'curve__handle')
+      .attr('fill', '#aaa')
+      .attr('r', 4)
+      .on('mousedown', function(event) {
         // Don't trigger mousedown on handler else
         // it create the selection rectangle
-        d3.event.stopPropagation();
+        event.stopPropagation();
       })
       .call(dragHandle);
 
-    handle.attr({
-      cx: (d) => d.handle.x,
-      cy: (d) => d.handle.y
-    });
+    handle
+      .attr('cx', (d) => d.handle.x)
+      .attr('cy', (d) => d.handle.y);
 
     handle.exit().remove();
   }

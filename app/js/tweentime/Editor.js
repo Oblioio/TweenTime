@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import Signals from 'signals';
+import Mustache from 'mustache';
 import tpl_timeline from './templates/timeline.tpl.html';
 import Timeline from './graph/Timeline';
 import PropertiesEditor from './editor/PropertiesEditor';
@@ -14,17 +15,17 @@ class Editor {
     this.tweenTime = tweenTime;
     this.options = options;
     this.timer = this.tweenTime.timer;
-    this.lastTime = -1;
+    this.lastTime = 0;
     this.curveEditEnabled = false;
 
     this.onKeyAdded = this.onKeyAdded.bind(this);
     this.onKeyRemoved = this.onKeyRemoved.bind(this);
-
+window.theeditor = this;
     this.forceItemsRender = this.forceItemsRender.bind(this);
 
     var el = options.el || $('body');
     this.el = el;
-    this.$timeline = $(tpl_timeline.render());
+    this.$timeline = $(Mustache.render(tpl_timeline));
     el.append(this.$timeline);
     el.addClass('has-editor');
 
@@ -95,6 +96,8 @@ class Editor {
     this.timeline.render(time2, time_changed);
     this.controls.render(time2, time_changed);
     this.propertiesEditor.render(time2, time_changed);
+
+    console.log(time2, time_changed);
   }
 
   update() {

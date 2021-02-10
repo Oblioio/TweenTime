@@ -22,8 +22,8 @@ export default class Selection {
 
   init() {
     var self = this;
-    this.svg.on('mousedown', function() {
-      var p = d3.mouse(this);
+    this.svg.on('mousedown', function(event) {
+      var p = d3.pointer(event);
       // Only init selection if we click on the timeline and not on the labels.
       if (p[0] < self.timeline.margin.left) {
         return;
@@ -42,12 +42,12 @@ export default class Selection {
       $('body').css({
         'user-select': 'none'
       });
-    }).on('mousemove', function() {
+    }).on('mousemove', function(event) {
       var s = self.svg.select('.selection');
       if (s.empty()) {
         return;
       }
-      var p = d3.mouse(this);
+      var p = d3.pointer(event);
       var d = {
         x: parseInt(s.attr('x'), 10),
         y: parseInt(s.attr('y'), 10),

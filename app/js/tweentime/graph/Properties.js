@@ -52,10 +52,10 @@ export default class Properties {
       .attr('y', 0)
       .attr('width', self.timeline.x(self.timeline.timer.totalDuration + 100))
       .attr('height', self.timeline.lineHeight)
-      .on('dblclick', function(d) {
+      .on('dblclick', function(event, d) {
         const lineValue = d._line;
         let def = d.default ? d.default : 0;
-        const mouse = d3.mouse(this);
+        const mouse = d3.pointer(event);
         let dx = self.timeline.x.invert(mouse[0]);
         dx = dx.getTime() / 1000;
         const prevKey = Utils.getPreviousKey(d.keys, dx);
@@ -127,11 +127,9 @@ export default class Properties {
 
   renderPropertiesLabel(bar, subGrp) {
     subGrp.append('text')
-      .attr({
-        class: 'line-label line-label--sub line-label--small',
-        x: this.timeline.label_position_x + 10,
-        y: 15
-      })
+      .attr('class', 'line-label line-label--sub line-label--small')
+      .attr('x', this.timeline.label_position_x + 10)
+      .attr('y', 15)
       .text((d) => d.name)
       .on('click', (d) => {
         this.timeline.selectionManager.select(d);

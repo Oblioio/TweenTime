@@ -1,5 +1,6 @@
 import $ from 'jquery';
 
+import Mustache from 'mustache';
 import tpl_property from '../templates/propertyTween.tpl.html';
 
 export default class PropertyTween {
@@ -70,7 +71,7 @@ export default class PropertyTween {
       data.options.push(label);
     }
 
-    this.$el = $(tpl_property.render(data));
+    this.$el = $(Mustache.render(tpl_property, data));
     this.$el.find('select').change(this.onChange);
   }
 

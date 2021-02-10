@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import { saveAs } from 'file-saver';
+import saveAs from 'file-saver';
 
 export default class EditorMenu {
   constructor(tweenTime, $timeline, editor) {

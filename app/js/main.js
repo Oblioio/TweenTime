@@ -6,8 +6,8 @@
 // import 'regenerator-runtime';
 
 // import $ from 'jquery';
-import Core from './tweentime/Core';
-import Editor from './tweentime/Editor';
+import Core from './tweentime/Core.js';
+import Editor from './tweentime/Editor.js';
 import app from './app/global';
 import gsap from 'gsap';
 
@@ -181,7 +181,7 @@ function siteIsIn() {
     window.requestAnimationFrame(animate);
   }
 
-  tweenTime.timer.play();
+  // tweenTime.timer.play();
   animate();
 
   window.thetimer = tweenTime.timer;

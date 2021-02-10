@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import Signals from 'signals';
+import Mustache from 'mustache';
 import Property from '../editor/Property';
-
 import tpl_propertiesEditor from './../templates/propertiesEditor.tpl.html';
 
 export default class PropertiesEditor {
@@ -17,7 +17,7 @@ export default class PropertiesEditor {
     this.timer = this.editor.timer;
     this.selectionManager = editor.selectionManager;
 
-    this.$el = $(tpl_propertiesEditor.render());
+    this.$el = $(Mustache.render(tpl_propertiesEditor));
     this.$container = this.$el.find('.properties-editor__main');
     // todo: rename keyAdded to updated
     this.keyAdded = new Signals.Signal();

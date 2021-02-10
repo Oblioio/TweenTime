@@ -2,6 +2,7 @@ import $ from 'jquery';
 import PropertyBase from './PropertyBase';
 // let DraggableNumber = require('draggable-number.js');
 
+import Mustache from 'mustache';
 import tpl_property from '../templates/propertyNumber.tpl.html';
 
 export default class PropertyNumber extends PropertyBase {
@@ -28,7 +29,7 @@ export default class PropertyNumber extends PropertyBase {
       val: val
     };
 
-    var view = tpl_property.render(data);
+    var view = Mustache.render(tpl_property, data);
     this.$el = $(view);
     this.$el.find('.property__key').click(this.onKeyClick);
 

@@ -27,15 +27,16 @@ export default class Keys {
     const self = this;
     const tweenTime = self.timeline.tweenTime;
 
-    const dragmove = function(key_data) {
-      const sourceEvent = d3.event.sourceEvent;
+    const dragmove = function(event, key_data) {
+      const sourceEvent = event.sourceEvent;
       const propertyData = key_data._property;
       const lineData = propertyData._line;
 
       const currentDomainStart = self.timeline.x.domain()[0];
-      var mouse = d3.mouse(this);
+      var mouse = d3.pointer(event);
       var old_time = key_data.time;
       var dx = self.timeline.x.invert(mouse[0]);
+  
       dx = dx.getTime();
       dx = dx / 1000 - currentDomainStart / 1000;
       dx = key_data.time + dx;
@@ -123,8 +124,7 @@ export default class Keys {
     });
 
     // selectKey is triggered by dragstart event
-    var selectKey = function(key_data) {
-      var event = d3.event;
+    var selectKey = function(event, key_data) {
       // with dragstart event the mousevent is is inside the event.sourcEvent
       if (event.sourceEvent) {
         event = event.sourceEvent;
@@ -133,7 +133,7 @@ export default class Keys {
       var addToSelection = event.shiftKey;
       // if element is already selectionned and we are on
       // the dragstart event, we stop there since it is already selected.
-      if (d3.event.type && d3.event.type === 'dragstart') {
+      if (event.type && event.type === 'dragstart') {
         if (d3.select(this).classed('key--selected')) {
           return;
         }
@@ -149,21 +149,21 @@ export default class Keys {
       self.timeline.editor.undoManager.addState();
     };
 
-    var drag = d3.behavior.drag()
-      .origin((d) => {return d;})
+    var drag = d3.drag()
+      .subject((d) => {return d;})
       .on('drag', dragmove)
-      .on('dragstart', selectKey)
-      .on('dragend', dragend);
+      .on('start', selectKey)
+      .on('end', dragend);
 
     var key_grp = keys.enter()
       .append('g')
       .attr('class', 'key')
       // Use the unique id added in propKey above for the dom element id.
       .attr('id', (d) => {return d._id;})
-      .on('mousedown', function() {
+      .on('mousedown', function(event) {
         // Don't trigger mousedown on linescontainer else
         // it create the selection rectangle
-        d3.event.stopPropagation();
+        event.stopPropagation();
       })
       .call(drag);
 
@@ -232,14 +232,10 @@ export default class Keys {
     grp_custom.append('path')
       .attr('class', 'key__shape-arrow')
       .attr('d', 'M 0 -6 L 6 0 L 0 6')
-      .attr({
-        transform: 'translate(-5, 0)'
-      });
+      .attr('transform', 'translate(-5, 0)');
 
     var g2 = grp_custom.append('g')
-      .attr({
-        transform: 'scale(-1, 1) translate(-5, 0)'
-      });
+      .attr('transform', 'scale(-1, 1) translate(-5, 0)');
 
     g2.append('path')
       .attr('class', 'key__shape-arrow')
@@ -248,6 +244,9 @@ export default class Keys {
     keys.attr('transform', function(d) {
       var dx = self.timeline.x(d.time * 1000);
       dx = parseInt(dx, 10);
+      if (isNaN(dx)) {
+        console.log('KEYS ATTR NAN!', d, self, self.timeline, self.timeline.x, d, d.time);
+      }
       var dy = 10;
       return 'translate(' + dx + ',' + dy + ')';
     });

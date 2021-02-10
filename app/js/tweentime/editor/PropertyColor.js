@@ -2,6 +2,7 @@ import $ from 'jquery';
 import 'spectrum-colorpicker';
 import PropertyBase from './PropertyBase';
 
+import Mustache from 'mustache';
 import tpl_property from '../templates/propertyColor.tpl.html';
 
 export default class PropertyColor extends PropertyBase {
@@ -22,7 +23,7 @@ export default class PropertyColor extends PropertyBase {
       val: val
     };
 
-    var view = tpl_property.render(data);
+    var view = Mustache.render(tpl_property, data);
     this.$el = $(view);
     this.$el.find('.property__key').click(this.onKeyClick);
 
