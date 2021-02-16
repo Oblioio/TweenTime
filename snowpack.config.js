@@ -4,7 +4,7 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
 module.exports = {
   mount: {
-    app: '/app',
+    app: '/',
     _site: '/'
   },
   plugins: [
