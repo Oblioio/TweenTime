@@ -1,5 +1,4 @@
-import * as d3 from "d3";
-import $ from 'jquery';
+import * as d3 from 'd3';
 
 export default class Selection {
   constructor(timeline, svg, margin) {
@@ -39,9 +38,10 @@ export default class Selection {
       // Unselect items.
       self.timeline.selectionManager.reset();
       // Prevent default browser text selection.
-      $('body').css({
-        'user-select': 'none'
-      });
+      document.body.style.userSelect = 'none';
+      // $('body').css({
+      //   'user-select': 'none'
+      // });
     }).on('mousemove', function() {
       var s = self.svg.select('.selection');
       if (s.empty()) {
@@ -114,6 +114,7 @@ export default class Selection {
     });
     // Attach the mouseup event to window so that it catch it event if
     // mouseup happen outside of the browser window.
-    $(window).on('mouseup', this.onMouseUp);
+    // $(window).on('mouseup', this.onMouseUp);
+    window.addEventListener('mouseup', this.onMouseUp);
   }
 }

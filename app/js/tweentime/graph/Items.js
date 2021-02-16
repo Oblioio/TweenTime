@@ -95,7 +95,9 @@ export default class Items {
 
     const bar_border = 1;
     const bar = this.container.selectAll('.line-grp')
-      .data(this.timeline.tweenTime.data, (d) => {return d.id;});
+      .data(this.timeline.tweenTime.data, (d) => {
+        return d.id;
+      });
 
     const barEnter = bar.enter()
       .append('g').attr('class', 'line-grp');
@@ -134,6 +136,7 @@ export default class Items {
       .call(dragRight);
 
     self.dy = 10 + this.timeline.margin.top;
+
     bar.attr('transform', function(d) {
       var y = self.dy;
       self.dy += self.timeline.lineHeight;

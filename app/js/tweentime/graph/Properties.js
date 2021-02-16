@@ -35,14 +35,15 @@ export default class Properties {
     var editor = this.timeline.editor;
     var core = editor.tweenTime;
 
-    var properties = bar.selectAll('.line-item').data((d) => this.propertyVal(d), this.propertyKey);
+    var properties = bar.selectAll('.line-item').data((d) => {
+      return this.propertyVal(d);
+    }, this.propertyKey);
     var subGrp = properties.enter()
       .append('g')
       .attr('class', 'line-item');
 
     // Save subGrp in a variable for use in Errors.coffee
     self.subGrp = subGrp;
-
 
     properties.attr('transform', (d, i) => this.setSublineHeight(d, i));
 

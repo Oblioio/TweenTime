@@ -36,6 +36,7 @@ export default class Keys {
       var mouse = d3.mouse(this);
       var old_time = key_data.time;
       var dx = self.timeline.x.invert(mouse[0]);
+      console.log(this, mouse, dx);
       dx = dx.getTime();
       dx = dx / 1000 - currentDomainStart / 1000;
       dx = key_data.time + dx;

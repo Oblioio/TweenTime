@@ -64,6 +64,7 @@ export default class Header {
     this.x.domain([0, this.timer.totalDuration]);
     this.xAxisElement.call(this.xAxis);
     this.initialDomain = this.adaptDomainToDuration(this.initialDomain, seconds);
+    console.log("THIS INITIAL DOMAIN", this.initialDomain);
     this.setDomain(this.initialDomain);
   }
 
@@ -75,6 +76,7 @@ export default class Header {
 
     var onBrush = () => {
       var extent0 = this.brush.extent();
+      console.log('ON BRUSH', extent0);
       // Get domain as milliseconds and not date.
       var start = extent0[0].getTime();
       var end = extent0[1].getTime();
@@ -106,13 +108,14 @@ export default class Header {
 
     var dragTimeMove = function() {
       var event = d3.event.sourceEvent;
+      console.log('DRAG TIME MOVE', event, event.x, event.clientX);
       event.stopPropagation();
       var tweenTime = self.tweenTime;
       var event_x = event.x !== undefined ? event.x : event.clientX;
       var dx = self.xDisplayed.invert(event_x - self.margin.left);
       dx = dx.getTime();
       dx = Math.max(0, dx);
-
+console.log()
       var timeMatch = false;
       if (event.shiftKey) {
         var time = dx / 1000;

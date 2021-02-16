@@ -33,7 +33,7 @@ export default class Timeline {
     this.initialDomain = [];
     this.initialDomain[0] = options.domainStart || 0;
     this.initialDomain[1] = options.domainEnd || this.timer.totalDuration * 0.2;
-
+    console.log('TIMELINE INITIAL DOMAIN!', this.timer.totalDuration, this.initialDomain[1], options.domainEnd, this.timer.totalDuration * 0.2);
     // Adapt time to be greater or equal to domainStart.
     if (this.initialDomain[0] > this.timer.getCurrentTime()) {
       this.timer.time[0] = this.initialDomain[0];
@@ -74,7 +74,7 @@ export default class Timeline {
     this.timeIndicator = new TimeIndicator(this, this.svgContainerTime);
 
     this.selection = new Selection(this, this.svg, margin);
-
+  
     this.items = new Items(this, this.linesContainer);
     this.items.onUpdate.add(this.onUpdate);
     this.keysPreview = new KeysPreview(this, this.linesContainer);
@@ -84,6 +84,7 @@ export default class Timeline {
       this._isDirty = true;
       // render the timeline directly so that we can directly select
       // the new key with it's domElement.
+      console.log('key added render');
       this.render(0, false);
       this.keys.selectNewKey(newKey);
     });
@@ -98,6 +99,7 @@ export default class Timeline {
       this._isDirty = true;
       // render the timeline directly so that we can directly select
       // the new key with it's domElement.
+      console.log('curve updated render');
       this.render(0, false);
     });
 
@@ -126,6 +128,7 @@ export default class Timeline {
     });
 
     // First render
+    console.log('first render');
     window.requestAnimationFrame(() => {this.render();});
 
     window.onresize = () => {
@@ -138,6 +141,7 @@ export default class Timeline {
 
       this._isDirty = true;
       this.header.resize(INNER_WIDTH);
+      console.log('resize render');
       this.render();
     };
   }
@@ -166,6 +170,7 @@ export default class Timeline {
     }
 
     if (this._isDirty || time_changed) {
+      console.log('timeline render', this._isDirty, time_changed);
       // Render header and time indicator everytime the time changed.
       this.header.render();
       this.timeIndicator.render();
