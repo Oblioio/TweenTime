@@ -132,7 +132,7 @@ export default class Properties {
       .attr('x', this.timeline.label_position_x + 10)
       .attr('y', 15)
       .text((d) => d.name)
-      .on('click', (d) => {
+      .on('click', (event, d) => {
         this.timeline.selectionManager.select(d);
       });
   }

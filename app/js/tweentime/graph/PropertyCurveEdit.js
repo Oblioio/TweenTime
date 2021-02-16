@@ -132,7 +132,7 @@ export default class PropertyCurveEdit {
     // Show curves only if curve editor mode.
     bar.attr('display', (d) => {
       const selection = self.timeline.selectionManager.getSelection();
-
+console.log('HELLO SELECTION', selection);
       if (this.timeline.editor.curveEditEnabled) {
         // Check if this item is in selection.
         for (let i = 0; i < selection.length; i++) {
