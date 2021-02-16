@@ -33,7 +33,8 @@ export default class Timeline {
     this.initialDomain = [];
     this.initialDomain[0] = options.domainStart || 0;
     this.initialDomain[1] = options.domainEnd || this.timer.totalDuration * 0.2;
-
+    this.initialDomain[1] /= 1000;
+console.log('TIMELINE INITIAL DOMAIN!', this.timer.totalDuration, this.initialDomain[1], options.domainEnd, this.timer.totalDuration * 0.2);
     // Adapt time to be greater or equal to domainStart.
     if (this.initialDomain[0] > this.timer.getCurrentTime()) {
       this.timer.time[0] = this.initialDomain[0];
@@ -82,6 +83,8 @@ export default class Timeline {
       this._isDirty = true;
       // render the timeline directly so that we can directly select
       // the new key with it's domElement.
+
+      console.log('key added render');
       this.render(0, false);
       this.keys.selectNewKey(newKey);
     });
@@ -96,6 +99,7 @@ export default class Timeline {
       this._isDirty = true;
       // render the timeline directly so that we can directly select
       // the new key with it's domElement.
+      console.log('curve updated render');
       this.render(0, false);
     });
 
@@ -122,7 +126,11 @@ export default class Timeline {
     });
 
     // First render
-    window.requestAnimationFrame(() => {this.render();});
+    console.log('first render');
+    window.requestAnimationFrame(() => {
+      console.log('THIS IS THE FIRST ONE');
+      this.render();
+    });
 
     window.onresize = () => {
       var INNER_WIDTH = window.innerWidth;
@@ -134,6 +142,7 @@ export default class Timeline {
 
       this._isDirty = true;
       this.header.resize(INNER_WIDTH);
+      console.log('resize render');
       this.render();
     };
   }
@@ -162,6 +171,7 @@ export default class Timeline {
     }
 
     if (this._isDirty || time_changed) {
+      console.log('timeline render', this._isDirty, time_changed);
       // Render header and time indicator everytime the time changed.
       this.header.render();
       this.timeIndicator.render();

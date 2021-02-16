@@ -33,10 +33,10 @@ export default class Keys {
       const lineData = propertyData._line;
 
       const currentDomainStart = self.timeline.x.domain()[0];
-      var mouse = d3.pointer(event);
+      var mouse = d3.pointer(event, this);
       var old_time = key_data.time;
       var dx = self.timeline.x.invert(mouse[0]);
-  
+
       dx = dx.getTime();
       dx = dx / 1000 - currentDomainStart / 1000;
       dx = key_data.time + dx;

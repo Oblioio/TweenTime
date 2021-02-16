@@ -15,18 +15,19 @@ class Editor {
     this.tweenTime = tweenTime;
     this.options = options;
     this.timer = this.tweenTime.timer;
-    this.lastTime = 0;
+    this.lastTime = -1;
     this.curveEditEnabled = false;
 
     this.onKeyAdded = this.onKeyAdded.bind(this);
     this.onKeyRemoved = this.onKeyRemoved.bind(this);
-window.theeditor = this;
+
     this.forceItemsRender = this.forceItemsRender.bind(this);
 
     var el = options.el || $('body');
     this.el = el;
     this.$timeline = $(Mustache.render(tpl_timeline));
     el.append(this.$timeline);
+    
     el.addClass('has-editor');
 
     this.selectionManager = new SelectionManager(this.tweenTime);
@@ -93,17 +94,19 @@ window.theeditor = this;
     if (force) {
       this.timeline._isDirty = true;
     }
+
     this.timeline.render(time2, time_changed);
     this.controls.render(time2, time_changed);
     this.propertiesEditor.render(time2, time_changed);
-
-    console.log(time2, time_changed);
   }
 
   update() {
     var time = this.timer.time[0];
     var time_changed = this.lastTime === time ? false : true;
-
+    if (time_changed) {
+      console.log('TIME CHANGED', this.lastTime, time);
+    }
+    // console.log('TIME CHANGED!!', this.lastTime, time, time_changed);
     this.render(time, time_changed);
     this.lastTime = this.timer.time[0];
     window.requestAnimationFrame(() => this.update());

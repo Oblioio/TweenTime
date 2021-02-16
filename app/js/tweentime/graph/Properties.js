@@ -35,14 +35,15 @@ export default class Properties {
     var editor = this.timeline.editor;
     var core = editor.tweenTime;
 
-    var properties = bar.selectAll('.line-item').data((d) => this.propertyVal(d), this.propertyKey);
+    var properties = bar.selectAll('.line-item').data((d) => {
+      return this.propertyVal(d);
+    }, this.propertyKey);
     var subGrp = properties.enter()
       .append('g')
       .attr('class', 'line-item');
 
     // Save subGrp in a variable for use in Errors.coffee
     self.subGrp = subGrp;
-
 
     properties.attr('transform', (d, i) => this.setSublineHeight(d, i));
 
@@ -55,7 +56,7 @@ export default class Properties {
       .on('dblclick', function(event, d) {
         const lineValue = d._line;
         let def = d.default ? d.default : 0;
-        const mouse = d3.pointer(event);
+        const mouse = d3.pointer(event, this);
         let dx = self.timeline.x.invert(mouse[0]);
         dx = dx.getTime() / 1000;
         const prevKey = Utils.getPreviousKey(d.keys, dx);
@@ -88,7 +89,7 @@ export default class Properties {
       .attr('width', window.innerWidth - self.timeline.label_position_x)
       .attr('height', self.timeline.lineHeight);
 
-    this.renderPropertiesLabel(bar, properties);
+    this.renderPropertiesLabel(bar, subGrp);
 
     subGrp.append('line')
       .attr('class', 'line-separator--secondary')

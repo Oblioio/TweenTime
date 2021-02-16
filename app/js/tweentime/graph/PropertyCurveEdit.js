@@ -1,4 +1,4 @@
-import * as d3 from "d3";
+import * as d3 from 'd3';
 import Signals from 'signals';
 import Utils from '../core/Utils';
 
@@ -236,7 +236,7 @@ export default class PropertyCurveEdit {
       const ease = Utils.getEasingPoints(point.ease);
       const timeBetweenPrevNext = key.time - prev._key.time;
 
-      const mouse = d3.pointer(event);
+      const mouse = d3.pointer(event, this);
       const old_time = key.time;
       let dx = self.timeline.x.invert(mouse[0]);
       dx = dx.getTime() / 1000;

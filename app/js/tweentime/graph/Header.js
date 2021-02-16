@@ -50,10 +50,10 @@ export default class Header {
   }
 
   setDomain() {
-    console.log('THIS BRUSH IS', this.brush.x, this.x, this.brush);
-    this.brush.x(this.x).extent(this.initialDomain);
-    this.svgContainer.select('.brush').call(this.brush);
-    // Same as onBrush
+    // this.brush.move(this.gBrush, this.initialDomain.map(this.x));
+    // this.brush.x(this.x).extent([[0, 1], [this.initialDomain[1], 1]]);
+    // this.svgContainer.select('.brush').call(this.brush);
+    // // Same as onBrush
     this.onBrush.dispatch(this.initialDomain);
     this.render();
     this.xDisplayed.domain(this.initialDomain);
@@ -72,28 +72,51 @@ export default class Header {
       .attr('transform', 'translate(0,' + (this.margin.top + 7) + ')')
       .call(this.xAxis);
 
-    var onBrush = () => {
-      console.log('ON BRUSH');
-      var extent0 = this.brush.extent();
-      // Get domain as milliseconds and not date.
-      var start = extent0[0].getTime();
-      var end = extent0[1].getTime();
-      // Set the initial domain.
+    var onBrush = ({ selection }) => {
+      // var extent0 = this.brush.extent();
+      // // Get domain as milliseconds and not date.
+      // console.log('ON BRUSH', selection, this.brush.extent);
+      // var start = extent0[0].getTime();
+      // var end = extent0[1].getTime();
+      const start = this.x.invert(selection[0]);
+      const end = this.x.invert(selection[1]);
+      // // Set the initial domain.
       this.initialDomain[0] = start;
       this.initialDomain[1] = end;
+      console.log(selection[1], this.brush.extent()());
       this.setDomain(this.initialDomain);
+      // const selection = data.selection;
+      // console.log('WHAT IS THE SELECTION', data, selection, this.x.range(), this.x.domain(), this.brush.extent()());
+      // if (selection) {
+      //   console.log(this.x.invert(selection[0]));
+      //   this.svgContainer.property("value", selection.map(this.x.invert, this.x).map(d3.utcDay.round));
+      //   // this.onBrush.dispatch("input");
+      // }
     };
 
-    this.brush = d3.brushX(this.x)
-      .extent([[0, 0], this.initialDomain])
-      .on('brush', onBrush);
+    var brushended = ({selection}) => {
+      if (!selection) {
+        console.log('ended!');
+        // this.gBrush.call(this.brush.move, defaultSelection);
+      }
+    }
+
+console.log('INITIAL DOMAIN', this.initialDomain, this.x(), this.height);
+    this.brush = d3.brushX()
+      .extent([[this.x.range()[0], 0], [this.x.range()[1], 20]])
+      // .extent([[this.x, this.height], [this.initialDomain[1], this.height]])
+      .on('brush', onBrush)
+      .on('end', brushended);
 
     this.gBrush = this.svgContainer.append('g')
       .attr('class', 'brush')
       .call(this.brush)
+      .call(this.brush.move, [0, this.x.range()[1] * 0.2])
       .selectAll('rect')
       .attr('height', 20);
   }
+
+  
 
   render() {
     var timeSelection = this.svgContainer.selectAll('.time-indicator');
@@ -103,8 +126,9 @@ export default class Header {
   createTimeHandle() {
     var self = this;
 
-    var dragTimeMove = function(event) {
-      event.sourceEvent.stopPropagation();
+    var dragTimeMove = function(e) {
+      const event = e.sourceEvent;
+      event.stopPropagation();
       var tweenTime = self.tweenTime;
       var event_x = event.x !== undefined ? event.x : event.clientX;
       var dx = self.xDisplayed.invert(event_x - self.margin.left);
@@ -140,7 +164,7 @@ export default class Header {
       .attr('height', 50)
       .attr('fill-opacity', 0)
       .on('click', function(event) {
-        var mouse = d3.pointer(event);
+        var mouse = d3.pointer(event, this);
         var dx = self.xDisplayed.invert(mouse[0]);
         dx = dx.getTime();
         dx = Math.max(0, dx);

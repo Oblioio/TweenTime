@@ -1,4 +1,4 @@
-import * as d3 from "d3";
+import * as d3 from 'd3';
 import $ from 'jquery';
 
 export default class Selection {
@@ -12,7 +12,7 @@ export default class Selection {
   }
 
   onMouseUp() {
-    this.svg.selectAll('.selection').remove();
+    this.svg.selectAll('.key-selection').remove();
     // Enable again the default browser text selection.
     // Disabled this because is was causing problems with text higlhlighting
     // $('body').css({
@@ -23,19 +23,18 @@ export default class Selection {
   init() {
     var self = this;
     this.svg.on('mousedown', function(event) {
-      var p = d3.pointer(event);
+      var p = d3.pointer(event, this);
       // Only init selection if we click on the timeline and not on the labels.
       if (p[0] < self.timeline.margin.left) {
         return;
       }
       self.svg.append('rect')
-        .attr({
-          class: 'selection',
-          x: p[0],
-          y: p[1],
-          width: 0,
-          height: 0
-        });
+        .attr('class', 'key-selection')
+        .attr('x', p[0])
+        .attr('y', p[1])
+        .attr('width', 0)
+        .attr('height', 0);
+
       // Unselect items.
       self.timeline.selectionManager.reset();
       // Prevent default browser text selection.
@@ -43,11 +42,11 @@ export default class Selection {
         'user-select': 'none'
       });
     }).on('mousemove', function(event) {
-      var s = self.svg.select('.selection');
+      var s = self.svg.select('.key-selection');
       if (s.empty()) {
         return;
       }
-      var p = d3.pointer(event);
+      var p = d3.pointer(event, this);
       var d = {
         x: parseInt(s.attr('x'), 10),
         y: parseInt(s.attr('y'), 10),
@@ -77,7 +76,11 @@ export default class Selection {
         d.height = move.y;
       }
 
-      s.attr(d);
+      const keys = Object.keys(d);
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        s.attr(key, d[key]);
+      }
 
       // remove margins from selection
       d.x -= self.margin.left;
@@ -85,7 +88,7 @@ export default class Selection {
 
       d.timeStart = self.timeline.x.invert(d.x - key_width).getTime() / 1000;
       d.timeEnd = self.timeline.x.invert(d.x + d.width + key_width).getTime() / 1000;
-      var containerBounding = self.svg[0][0].getBoundingClientRect();
+      var containerBounding = self.svg.node().getBoundingClientRect();//self.svg[0][0].getBoundingClientRect();
 
       // deselect all previously selected items
       d3.selectAll('.key--selected').classed('key--selected', false);
@@ -98,7 +101,8 @@ export default class Selection {
         key_data._dom = this;
 
         if (item_data.collapsed !== true) {
-          var itemBounding = d3.select(this)[0][0].getBoundingClientRect();
+          var itemBounding = d3.select(this).node().getBoundingClientRect();//d3.select(this)[0][0].getBoundingClientRect();
+          
           var y = itemBounding.top - containerBounding.top;
           if (key_data.time >= d.timeStart && key_data.time <= d.timeEnd) {
             // use or condition for top and bottom

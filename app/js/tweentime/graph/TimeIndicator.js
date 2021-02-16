@@ -24,7 +24,6 @@ export default class TimeIndicator {
   }
 
   render() {
-    console.log(this.timeline.currentTime);
     this.timeSelection.attr('transform', 'translate(' + (this.timeline.x(this.timeline.currentTime[0]) - 0.5) + ',0)');
   }
 }

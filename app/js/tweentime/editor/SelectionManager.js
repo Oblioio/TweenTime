@@ -9,7 +9,9 @@ export default class SelectionManager {
     this.onSelect = new Signals.Signal();
   }
 
+  // addToSelection is true if user is holding shift key to click multiple keys
   select(item, addToSelection = false) {
+    console.log('add to selection', addToSelection, item);
     if (!addToSelection) {
       this.selection = [];
     }
@@ -18,8 +20,7 @@ export default class SelectionManager {
         var el = item[i];
         this.selection.push(el);
       }
-    }
-    else {
+    } else {
       this.selection.push(item);
     }
 
