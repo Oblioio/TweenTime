@@ -1,3 +1,4 @@
+/* eslint-disable quote-props */
 /* eslint-disable linebreak-style */
 /* eslint-disable max-len */
 
@@ -6,19 +7,20 @@
 // import 'regenerator-runtime';
 
 // import $ from 'jquery';
+import { gsap } from 'gsap/all';
 import Core from './tweentime/Core.js';
 import Editor from './tweentime/Editor.js';
 import app from './app/global';
-import gsap from 'gsap';
 
 app.verbose = true;
 app.debug = window.location.hash === '#debug';
 
 function siteIsIn() {
   console.log('SITE IS IN');
-  var data = [
+  const data = [
     {
       "id": "box",
+      "object": document.querySelector('.box--blue'),
       "type": "box",
       "label": "Box 1",
       "start": 0,
@@ -81,6 +83,7 @@ function siteIsIn() {
     },
     {
       "id": "box2",
+      "object": document.querySelector('.box--red'),
       "type": "box",
       "label": "Box 2",
       "start": 0,
@@ -159,32 +162,33 @@ function siteIsIn() {
     }
   ];
 
-  var tweenTime = new Core(data);
-  var editor = new Editor(tweenTime);
+  const tweenTime = new Core(data);
+  const editor = new Editor(tweenTime);
 
-  var box_values = tweenTime.getValues('box');
-  var box2_values = tweenTime.getValues('box2');
+  const box_values = tweenTime.getValues('box');
+  const box2_values = tweenTime.getValues('box2');
 
   function animate() {
-    gsap.set('.box--blue', { alpha: box_values.opacity, x: `${box_values.x}px`, y: `${box_values.y}px` });
-    gsap.set('.box--red', { alpha: box2_values.opacity, x: `${box2_values.x}px`, y: `${box2_values.y}px` });
-    // $('.box--blue').css({
-    //   'opacity': box_values.opacity,
-    //   'transform': 'translate(' + box_values.x + 'px, ' + box_values.y + 'px)'
-    // });
+    // gsap.set('.box--blue', { alpha: box_values.opacity, x: `${box_values.x}px`, y: `${box_values.y}px` });
+    // gsap.set('.box--red', { alpha: box2_values.opacity, x: `${box2_values.x}px`, y: `${box2_values.y}px` });
 
-    // $('.box--red').css({
-    //   'opacity': box2_values.opacity,
-    //   'transform': 'translate(' + box2_values.x + 'px, ' + box2_values.y + 'px)'
-    // });
+    // // $('.box--blue').css({
+    // //   'opacity': box_values.opacity,
+    // //   'transform': 'translate(' + box_values.x + 'px, ' + box_values.y + 'px)'
+    // // });
 
-    window.requestAnimationFrame(animate);
+    // // $('.box--red').css({
+    // //   'opacity': box2_values.opacity,
+    // //   'transform': 'translate(' + box2_values.x + 'px, ' + box2_values.y + 'px)'
+    // // });
+
+    // window.requestAnimationFrame(animate);
   }
 
   // tweenTime.timer.play();
   animate();
 
-  window.thetimer = tweenTime.timer;
+  // window.thetimer = tweenTime.timer;
 }
 
 function init() {

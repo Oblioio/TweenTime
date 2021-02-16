@@ -113,8 +113,7 @@ export default class Orchestrator {
           // otherwise create a new timeline
           if (property._timeline) {
             property._timeline.clear();
-          }
-          else {
+          } else {
             property._timeline = gsap.timeline();
             item._timeline.add(property._timeline, 0);
           }
@@ -134,7 +133,7 @@ export default class Orchestrator {
           }
 
           // Set the data values target object.
-          let data_target = item.values;
+          let data_target = item.object || item.values;
           // Add a inital key, even if there is no animation to set the value from time 0.
           const first_key = property.keys[0];
           const tween_time = 0;
@@ -152,7 +151,8 @@ export default class Orchestrator {
             val[propName] = first_key ? first_key.val : property.val;
           }
 
-          let tween = gsap.to(data_target, tween_duration, val);
+          val.duration = tween_duration;
+          let tween = gsap.to(data_target, val);
           propertyTimeline.add(tween, tween_time);
 
           for (let key_index = 0; key_index < property.keys.length; key_index++) {
@@ -179,7 +179,8 @@ export default class Orchestrator {
                 val[propName] = next_key.val;
               }
 
-              tween = gsap.to(data_target, tween_duration, val);
+              val.duration = tween_duration;
+              tween = gsap.to(data_target, val);
               propertyTimeline.add(tween, key.time);
             }
           }
@@ -191,8 +192,7 @@ export default class Orchestrator {
         // to prevent glitches when current time is 0.
         if (seconds > 0) {
           seconds -= 0.0000001;
-        }
-        else {
+        } else {
           seconds += 0.0000001;
         }
       }
