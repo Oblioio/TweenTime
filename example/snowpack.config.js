@@ -5,7 +5,8 @@
 module.exports = {
   mount: {
     app: '/',
-    _site: '/'
+    _site: '/',
+    '../Editor': '/Editor'
   },
   plugins: [
     ['@snowpack/plugin-run-script', { cmd: 'eleventy', watch: '$1 --watch' }],

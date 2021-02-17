@@ -10,8 +10,8 @@
 import {
   gsap
 } from 'gsap/all';
-import Core from './tweentime/Core/Core.js';
-import Editor from './tweentime/Editor/Editor.js';
+import Core from 'tweentime/app/js/tweentime/Core/Core.js';
+import Editor from 'tweentime/app/js/tweentime/Editor/Editor.js';
 import app from './app/global';
 
 app.verbose = true;
