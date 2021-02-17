@@ -16,6 +16,7 @@ export default class Orchestrator {
     this.timer.updated.add(this.update);
     this.update(0);
     this.onEvent = new Signals.Signal();
+    window.mainTimeline = this.mainTimeline;
   }
 
   addUpdateListener(listener) {
@@ -144,7 +145,7 @@ export default class Orchestrator {
           val.ease = BezierEasing(...easing);
 
           if (property.css) {
-            data_target = item._domHelper;
+            data_target = item.object || item._domHelper;
             val.css = {};
             val.css[propName] = first_key ? first_key.val : property.val;
           } else {
