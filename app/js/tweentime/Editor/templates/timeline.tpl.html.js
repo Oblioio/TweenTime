@@ -1,4 +1,4 @@
-<div class="timeline">
+export default `<div class="timeline">
   <nav class="timeline__menu">
     <a href="#" class="menu-item" data-action="export">Export</a>
     <a href="#" class="menu-item" data-action="switch-curve">Switch curve editor</a>
@@ -16,4 +16,4 @@
   <div class="timeline__main">
 
   </div>
-</div>
+</div>`;

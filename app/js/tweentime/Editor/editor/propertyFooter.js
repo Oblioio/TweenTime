@@ -1,7 +1,7 @@
 import $ from 'jquery';
 
 import Mustache from 'mustache';
-import tpl_property from '../templates/propertyFooter.tpl.html';
+import tpl_property from '../templates/propertyFooter.tpl.html.js';
 
 export default class PropertyFooter {
   // instance_property: The current property on the data object.

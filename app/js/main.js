@@ -7,7 +7,9 @@
 // import 'regenerator-runtime';
 
 // import $ from 'jquery';
-import { gsap } from 'gsap/all';
+import {
+  gsap
+} from 'gsap/all';
 import Core from './tweentime/Core/Core.js';
 import Editor from './tweentime/Editor/Editor.js';
 import app from './app/global';

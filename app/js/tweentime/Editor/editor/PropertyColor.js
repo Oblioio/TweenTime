@@ -3,7 +3,7 @@ import 'spectrum-colorpicker';
 import PropertyBase from './PropertyBase';
 
 import Mustache from 'mustache';
-import tpl_property from '../templates/propertyColor.tpl.html';
+import tpl_property from '../templates/propertyColor.tpl.html.js';
 
 export default class PropertyColor extends PropertyBase {
   constructor(instance_property, lineData, editor, key_val = false) {

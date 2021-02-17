@@ -2,7 +2,7 @@ import $ from 'jquery';
 import Signals from 'signals';
 import Mustache from 'mustache';
 import Property from '../editor/Property';
-import tpl_propertiesEditor from './../templates/propertiesEditor.tpl.html';
+import tpl_propertiesEditor from './../templates/propertiesEditor.tpl.html.js';
 
 export default class PropertiesEditor {
   constructor(editor) {

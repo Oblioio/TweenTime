@@ -2,7 +2,7 @@ import $ from 'jquery';
 import PropertyBase from './PropertyBase';
 
 import Mustache from 'mustache';
-import tpl_property from '../templates/propertyEvent.tpl.html';
+import tpl_property from '../templates/propertyEvent.tpl.html.js';
 
 export default class PropertyEvent extends PropertyBase {
   // instance_property: The current property on the data object.

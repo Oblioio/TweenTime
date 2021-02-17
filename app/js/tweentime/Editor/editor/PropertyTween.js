@@ -1,7 +1,7 @@
 import $ from 'jquery';
 
 import Mustache from 'mustache';
-import tpl_property from '../templates/propertyTween.tpl.html';
+import tpl_property from '../templates/propertyTween.tpl.html.js';
 
 export default class PropertyTween {
   // instance_property: The current property on the data object.

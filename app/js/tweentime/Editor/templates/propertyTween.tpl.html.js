@@ -1,4 +1,4 @@
-<div class="property property--tween">
+export default `<div class="property property--tween">
   <label for="{{id}}" class="property__label">easing</label>
   <div class="property__select">
     <div class="custom-select">
@@ -9,4 +9,4 @@
       </select>
     </div>
   </div>
-</div>
+</div>`;

@@ -3,7 +3,7 @@ import PropertyBase from './PropertyBase';
 // let DraggableNumber = require('draggable-number.js');
 
 import Mustache from 'mustache';
-import tpl_property from '../templates/propertyNumber.tpl.html';
+import tpl_property from '../templates/propertyNumber.tpl.html.js';
 
 export default class PropertyNumber extends PropertyBase {
   // instance_property: The current property on the data object.

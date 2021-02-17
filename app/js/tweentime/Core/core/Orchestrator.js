@@ -16,7 +16,7 @@ export default class Orchestrator {
     this.timer.updated.add(this.update);
     this.update(0);
     this.onEvent = new Signals.Signal();
-    window.mainTimeline = this.mainTimeline;
+    window.orchestrator = this;
   }
 
   addUpdateListener(listener) {
