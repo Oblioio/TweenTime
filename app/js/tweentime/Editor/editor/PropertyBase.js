@@ -1,6 +1,6 @@
 import Signals from 'signals';
 import _ from 'lodash';
-import Utils from '../core/Utils';
+import Utils from '../../Utils';
 
 export default class PropertyBase {
   // @instance_property: The current property on the data object.

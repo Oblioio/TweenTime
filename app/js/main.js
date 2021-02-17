@@ -8,8 +8,8 @@
 
 // import $ from 'jquery';
 import { gsap } from 'gsap/all';
-import Core from './tweentime/Core.js';
-import Editor from './tweentime/Editor.js';
+import Core from './tweentime/Core/Core.js';
+import Editor from './tweentime/Editor/Editor.js';
 import app from './app/global';
 
 app.verbose = true;

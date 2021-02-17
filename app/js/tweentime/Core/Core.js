@@ -1,4 +1,4 @@
-import Utils from './core/Utils';
+import Utils from '../Utils';
 import Timer from './core/Timer';
 import Orchestrator from './core/Orchestrator';
 

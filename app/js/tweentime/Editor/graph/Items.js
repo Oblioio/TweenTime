@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import Signals from 'signals';
 import _ from 'lodash';
-import Utils from '../core/Utils';
+import Utils from '../../Utils';
 
 export default class Items {
   constructor(timeline, container) {

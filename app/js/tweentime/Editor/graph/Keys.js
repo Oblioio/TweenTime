@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import Signals from 'signals';
-import Utils from '../core/Utils';
+import Utils from '../../Utils';
 import _ from 'lodash';
 
 export default class Keys {

@@ -4,7 +4,7 @@ import Signals from 'signals';
 import {
   gsap
 } from 'gsap/all';
-import Utils from './Utils';
+import Utils from '../../Utils';
 
 export default class Orchestrator {
   constructor(timer, data) {

@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-import Utils from '../core/Utils';
+import Utils from '../../Utils';
 import Header from './Header';
 import TimeIndicator from './TimeIndicator';
 import Items from './Items';
