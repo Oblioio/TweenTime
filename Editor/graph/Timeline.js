@@ -34,7 +34,7 @@ export default class Timeline {
     this.initialDomain[0] = options.domainStart || 0;
     this.initialDomain[1] = options.domainEnd || this.timer.totalDuration * 0.2;
     this.initialDomain[1] /= 1000;
-console.log('TIMELINE INITIAL DOMAIN!', this.timer.totalDuration, this.initialDomain[1], options.domainEnd, this.timer.totalDuration * 0.2);
+
     // Adapt time to be greater or equal to domainStart.
     if (this.initialDomain[0] > this.timer.getCurrentTime()) {
       this.timer.time[0] = this.initialDomain[0];

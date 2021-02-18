@@ -83,7 +83,7 @@ export default class Header {
       // // Set the initial domain.
       this.initialDomain[0] = start;
       this.initialDomain[1] = end;
-      console.log(selection[1], this.brush.extent()());
+      // console.log('ON BRUSH', selection[0], selection[1]);
       this.setDomain(this.initialDomain);
       // const selection = data.selection;
       // console.log('WHAT IS THE SELECTION', data, selection, this.x.range(), this.x.domain(), this.brush.extent()());
@@ -95,13 +95,13 @@ export default class Header {
     };
 
     var brushended = ({selection}) => {
+      console.log('ended!');
       if (!selection) {
         console.log('ended!');
         // this.gBrush.call(this.brush.move, defaultSelection);
       }
     }
 
-console.log('INITIAL DOMAIN', this.initialDomain, this.x(), this.height);
     this.brush = d3.brushX()
       .extent([[this.x.range()[0], 0], [this.x.range()[1], 20]])
       // .extent([[this.x, this.height], [this.initialDomain[1], this.height]])
@@ -114,9 +114,18 @@ console.log('INITIAL DOMAIN', this.initialDomain, this.x(), this.height);
       .call(this.brush.move, [0, this.x.range()[1] * 0.2])
       .selectAll('rect')
       .attr('height', 20);
-  }
 
-  
+    /**
+     * TODO: Figure out why this was not needed in old version
+     * something happened in the newer versions of d3 that causes
+     * items to not be available immediately on creation, so i'm calling 
+     * setDomain() after a frame in order to render the header properly on load
+     */
+    window.requestAnimationFrame(() => {
+      this.setDomain();
+    })
+    
+  }
 
   render() {
     var timeSelection = this.svgContainer.selectAll('.time-indicator');

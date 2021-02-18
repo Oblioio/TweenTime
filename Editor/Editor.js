@@ -58,6 +58,23 @@ class Editor {
     window.editorEnabled = true;
     window.dispatchEvent(new Event('resize'));
     window.requestAnimationFrame(() => this.update());
+
+    /**
+     * TODO: Figure out why these were not needed in old version
+     * something happened in the newer versions of d3 that causes
+     * items to not be available immediately on creation, so i'm calling 
+     * render a few times here to get everything to render on load
+     */
+    window.requestAnimationFrame(() => {
+      this.render(0, true, true);
+    });
+    window.requestAnimationFrame(() => {
+      this.render(0, true, true);
+    });
+    window.requestAnimationFrame(() => {
+      this.render(0, true, true);
+    });
+
   }
 
   forceItemsRender() {
