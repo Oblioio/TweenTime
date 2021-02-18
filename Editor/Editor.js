@@ -23,7 +23,7 @@ class Editor {
 
     this.forceItemsRender = this.forceItemsRender.bind(this);
 
-    var el = $(options.el) || $('body');
+    var el = options.el ? $(options.el) : $('body');
     this.el = el;
     this.$timeline = $(Mustache.render(tpl_timeline));
     el.append(this.$timeline);

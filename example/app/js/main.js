@@ -10,8 +10,8 @@
 import {
   gsap
 } from 'gsap/all';
-import Core from 'tweentime/Core/Core.js';
-import Editor from 'tweentime/Editor/Editor.js';
+import Core from '/_root_/Core/Core.js';
+import Editor from '/_root_/Editor/Editor.js';
 import app from './app/global';
 
 app.verbose = true;
@@ -33,15 +33,15 @@ function siteIsIn() {
           "keys": [
             {
               "time": 0,
-              "val": 0
+              "val": '0%'
             },
             {
               "time": 2,
-              "val": 100,
+              "val": '100%',
               "ease": "Quart.easeInOut"
             }
           ],
-          "val": 0
+          "val": '0%'
         },
         {
           "name": "y",

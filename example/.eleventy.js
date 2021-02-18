@@ -1,26 +1,4 @@
-const htmlmin = require("html-minifier");
-
 module.exports = function(eleventyConfig) {
-    console.log('TESTING THE ENV', eleventyConfig);
-
-    eleventyConfig.addFilter("webp", function(value) {
-      return value.replace(/\.(jpe?g|png)/gi, '.webp');
-    });
-
-    eleventyConfig.addTransform("htmlmin", function(content, outputPath) {
-      // Eleventy 1.0+: use this.inputPath and this.outputPath instead
-      if( outputPath.endsWith(".html") ) {
-        let minified = htmlmin.minify(content, {
-          useShortDoctype: true,
-          removeComments: true,
-          collapseWhitespace: true
-        });
-        return minified;
-      }
-  
-      return content;
-    });
-
     return {
       templateFormats: [
         "njk",
