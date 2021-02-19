@@ -27,6 +27,12 @@ class Core {
     return this.data;
   }
 
+  attachObject(item_id, object) {
+    const item = this.getItem(item_id);
+    item.object = object;
+    item._isDirty = true;
+  }
+
   getItem(item_id) {
     // In case we passed the item object directly return it.
     if (item_id && typeof item_id === 'object') {

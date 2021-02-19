@@ -22,7 +22,6 @@ function siteIsIn() {
   const data = [
     {
       "id": "box",
-      "object": document.querySelector('.box--blue'),
       "type": "box",
       "label": "Box 1",
       "start": 0,
@@ -85,7 +84,6 @@ function siteIsIn() {
     },
     {
       "id": "box2",
-      "object": document.querySelector('.box--red'),
       "type": "box",
       "label": "Box 2",
       "start": 0,
@@ -165,6 +163,9 @@ function siteIsIn() {
   ];
 
   const tweenTime = new Core(data);
+  tweenTime.attachObject('box', document.querySelector('.box--blue'));
+  tweenTime.attachObject('box2', document.querySelector('.box--red'));
+
   const editor = new Editor(tweenTime);
 
   const box_values = tweenTime.getValues('box');
