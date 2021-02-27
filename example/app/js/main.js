@@ -21,12 +21,59 @@ function siteIsIn() {
   console.log('SITE IS IN');
   const data = [
     {
+      "id": "camera",
+      "type": "vector3",
+      "label": "Camera Rotation",
+      "start": 0,
+      "end": 4.0,
+      "properties": [
+
+      ]
+    },
+    {
       "id": "box",
       "type": "box",
       "label": "Box 1",
       "start": 0,
       "end": 4.0,
       "properties": [
+        {
+          "name": "testevent",
+          "type": "event",
+          "keys": [
+            {
+              "time": 2,
+              "val": "testeventval"
+            }
+          ]
+        },
+        {
+          "name": "xyz",
+          "keys": [
+            {
+              "time": 0,
+              "val": {
+                x: 0,
+                y: 0,
+                z: 0
+              }
+            },
+            {
+              "time": 2,
+              "val": {
+                x: 100,
+                y: 10,
+                z: -400
+              },
+              "ease": "Quart.easeInOut"
+            }
+          ],
+          "val": {
+            x: 0,
+            y: 0,
+            z: 0
+          }
+        },
         {
           "name": "x",
           "keys": [
@@ -163,13 +210,17 @@ function siteIsIn() {
   ];
 
   const tweenTime = new Core(data);
-  tweenTime.attachObject('box', document.querySelector('.box--blue'));
+  // tweenTime.attachObject('box', document.querySelector('.box--blue'));
   tweenTime.attachObject('box2', document.querySelector('.box--red'));
 
   const editor = new Editor(tweenTime);
 
   const box_values = tweenTime.getValues('box');
   const box2_values = tweenTime.getValues('box2');
+
+  tweenTime.addOnEventListener((eventname, val) => {
+    console.log('ARGS', eventname, val);
+  });
 
   function animate() {
     // gsap.set('.box--blue', { alpha: box_values.opacity, x: `${box_values.x}px`, y: `${box_values.y}px` });
@@ -184,8 +235,8 @@ function siteIsIn() {
     // //   'opacity': box2_values.opacity,
     // //   'transform': 'translate(' + box2_values.x + 'px, ' + box2_values.y + 'px)'
     // // });
-
-    // window.requestAnimationFrame(animate);
+    console.log(box_values.xyz.x);
+    window.requestAnimationFrame(animate);
   }
 
   // tweenTime.timer.play();

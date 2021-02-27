@@ -1,5 +1,4 @@
 import Signals from 'signals';
-import _ from 'lodash';
 import Utils from '../../Utils';
 
 export default class PropertyBase {
@@ -57,7 +56,7 @@ export default class PropertyBase {
 
     if (this.instance_property.keys && this.instance_property.keys.length) {
       // Add a new key if there is no other key at same time
-      var current_key = _.find(this.instance_property.keys, (key) => key.time === currentTime);
+      var current_key = Utils.find(this.instance_property.keys, (key) => key.time === currentTime);
 
       if (current_key) {
         // if there is a key update it

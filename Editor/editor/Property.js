@@ -2,6 +2,7 @@ import $ from 'jquery';
 import Signals from 'signals';
 import PropertyNumber from './PropertyNumber';
 import PropertyPercentage from './PropertyPercentage';
+import PropertyObject from './PropertyObject';
 import PropertyColor from './PropertyColor';
 import PropertyTween from './PropertyTween';
 import PropertyEvent from './PropertyEvent';
@@ -163,6 +164,8 @@ export default class Property {
       PropClass = PropertyEvent;
     } else if (typeof instance_prop.val === 'string' && instance_prop.val.charAt(instance_prop.val.length - 1) === '%') {
       PropClass = PropertyPercentage;
+    } else if (typeof instance_prop.val === 'object') {
+      PropClass = PropertyObject;
     }
     var prop = new PropClass(instance_prop, lineData, this.editor, key_val);
     prop.keyAdded.add(this.onKeyAdded);

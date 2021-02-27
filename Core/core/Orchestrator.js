@@ -144,7 +144,11 @@ export default class Orchestrator {
           // Use spread to convert array to multiple arguments.
           val.ease = BezierEasing(...easing);
 
-          if (property.css) {
+          if (typeof property.val === 'object') {
+            const first_key_val = first_key ? first_key.val : property.val;
+            val = {...first_key_val, ...val};
+            console.log('VAL', val, data_target);
+          } else if (property.css) {
             data_target = item.object || item._domHelper;
             val.css = {};
             val.css[propName] = first_key ? first_key.val : property.val;
@@ -152,8 +156,9 @@ export default class Orchestrator {
             val[propName] = first_key ? first_key.val : property.val;
           }
 
+          let tween = (typeof property.val === 'object') ? gsap.to(data_target[propName], val) : gsap.to(data_target, val);
+
           val.duration = tween_duration;
-          let tween = gsap.to(data_target, val);
           propertyTimeline.add(tween, tween_time);
 
           for (let key_index = 0; key_index < property.keys.length; key_index++) {
@@ -173,7 +178,9 @@ export default class Orchestrator {
 
               // Use spread to convert array to multiple arguments.
               val.ease = BezierEasing(...easing);
-              if (property.css) {
+              if (typeof next_key.val === 'object') {
+                val = {...next_key.val, ...val};
+              } else if (property.css) {
                 val.css = {};
                 val.css[propName] = next_key.val;
               } else {
@@ -181,7 +188,7 @@ export default class Orchestrator {
               }
 
               val.duration = tween_duration;
-              tween = gsap.to(data_target, val);
+              tween = typeof next_key.val === 'object' ? gsap.to(data_target[propName], val) : gsap.to(data_target, val);
               propertyTimeline.add(tween, key.time);
             }
           }
