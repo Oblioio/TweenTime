@@ -210,7 +210,7 @@ function siteIsIn() {
   ];
 
   const tweenTime = new Core(data);
-  // tweenTime.attachObject('box', document.querySelector('.box--blue'));
+  tweenTime.attachObject('box', document.querySelector('.box--blue'));
   tweenTime.attachObject('box2', document.querySelector('.box--red'));
 
   const editor = new Editor(tweenTime);

@@ -1,8 +1,36 @@
 import * as d3 from 'd3';
+import { keys } from 'lodash';
 import Signals from 'signals';
 import Utils from '../../Utils';
 
 const MAX_HEIGHT = 190;
+
+function getVal() {
+  console.log('TYPEOF', this.val);
+  switch(typeof this.val) {
+    case 'number':
+      return this.val;
+    case 'string':
+      return parseFloat(this.val);
+    case 'object':
+      const keys = Object.keys(this.val);
+      let total = 0;
+      let numvals = 0;
+      for (let i = 0; i < keys.length; i++) {
+        const val = this.val[keys[i]];
+        if (typeof val === 'number') {
+          total += val;
+          numvals++;
+        }
+      }
+
+      console.log('TOTAL', total, keys);
+      return total / numvals;
+    default:
+      console.log('weird case', this.val);
+      return this.val;
+  }
+}
 
 export default class PropertyCurveEdit {
   constructor(timeline, container) {
@@ -13,6 +41,7 @@ export default class PropertyCurveEdit {
   }
 
   normalizeVal(val, min, max, min2, max2) {
+    console.log('NORMALIZE', val, min, max, min2, max2);
     if (min === min2 && max === max2) {
       return val;
     }
@@ -24,6 +53,7 @@ export default class PropertyCurveEdit {
 
   // Get bezier point from easing (0 to 1) and previous and next point.
   bezierPoint(pt, prev, next) {
+    console.log('BEZIER POINT', pt, prev, next);
     const x = this.normalizeVal(pt.x, 0, 1, prev.x, next.x);
     const y = this.normalizeVal(pt.y, 0, 1, prev.y, next.y);
     return {x, y};
@@ -59,15 +89,18 @@ export default class PropertyCurveEdit {
       return [{points: [], name: d.name}];
     }
     // preprocess min and max for keys.
-    d._min = d3.min(d.keys, (k) => k.val);
-    d._max = d3.max(d.keys, (k) => k.val);
+    d._min = d3.min(d.keys, (k) => getVal.call(k));
+    d._max = d3.max(d.keys, (k) => getVal.call(k));
 
     d._curvePoints = [];
     // set raw points, without bezier control yet.
     d.keys.forEach((key) => {
       const x = this.timeline.x(key.time * 1000);
-      const y = this.normalizeVal(key.val, d._min, d._max, 0, MAX_HEIGHT);
+      const y = this.normalizeVal(getVal.call(key), d._min, d._max, 0, MAX_HEIGHT);
       d._curvePoints.push({x, y, ease: key.ease, id: `curve1-${key._id}`, _key: key});
+      if (isNaN(y)) {
+        console.log('ISNAN', getVal.call(key), d._min, d._max, 0, MAX_HEIGHT);
+      }
     });
 
     // Control points, grouped by point + handle.
@@ -79,6 +112,7 @@ export default class PropertyCurveEdit {
       // If non number points return an empty path.
       if (isNaN(pt.x) || isNaN(pt.y)) {
         invalid = true;
+        // console.log('THIS IS ALSO INVALID', pt);
       }
       d._curvePointsBezier.push({x: pt.x, y: pt.y, ease: pt.ease, _key: pt._key});
       if (next) {
@@ -103,6 +137,7 @@ export default class PropertyCurveEdit {
             isNaN(p1.x) || isNaN(p1.y) ||
             isNaN(p2.x) || isNaN(p2.y)) {
           invalid = true;
+          // console.log('THIS IS INVALID', next, p1, p2, d);
         }
         d._controlPoints.push({point: pt, handle: p1, id: `${pt._key._id}-a`});
         d._controlPoints.push({point: next, handle: p2, id: `${pt._key._id}-b`});
@@ -132,7 +167,7 @@ export default class PropertyCurveEdit {
     // Show curves only if curve editor mode.
     bar.attr('display', (d) => {
       const selection = self.timeline.selectionManager.getSelection();
-console.log('HELLO SELECTION', selection);
+
       if (this.timeline.editor.curveEditEnabled) {
         // Check if this item is in selection.
         for (let i = 0; i < selection.length; i++) {
@@ -244,9 +279,9 @@ console.log('HELLO SELECTION', selection);
 
 
       // Get point A value top in px.
-      const valueApx = self.normalizeVal(prev._key.val, propertyData._min, propertyData._max, 0, MAX_HEIGHT);
+      const valueApx = self.normalizeVal(getVal.call(prev._key), propertyData._min, propertyData._max, 0, MAX_HEIGHT);
       // Same for B key value
-      const valueBpx = self.normalizeVal(point._key.val, propertyData._min, propertyData._max, 0, MAX_HEIGHT);
+      const valueBpx = self.normalizeVal(getVal.call(point._key), propertyData._min, propertyData._max, 0, MAX_HEIGHT);
 
       var dy = (mouse[1] - valueApx) / (valueBpx - valueApx);
 
