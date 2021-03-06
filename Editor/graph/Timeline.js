@@ -171,7 +171,7 @@ export default class Timeline {
     }
 
     if (this._isDirty || time_changed) {
-      console.log('timeline render', this._isDirty, time_changed);
+      // console.log('timeline render', this._isDirty, time_changed);
       // Render header and time indicator everytime the time changed.
       this.header.render();
       this.timeIndicator.render();
