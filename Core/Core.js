@@ -28,12 +28,13 @@ class Core {
   }
 
   attachObject(item_id, object) {
-    const item = this.getItem(item_id);
-    
-    if (item === false) console.error(`No item with id ${item_id}`);
-
-    item.object = object;
-    item._isDirty = true;
+    try {
+      const item = this.getItem(item_id);
+      item.object = object;
+      item._isDirty = true;
+    } catch(error) {
+      console.error(error);
+    }
   }
 
   getItem(item_id) {
@@ -42,7 +43,9 @@ class Core {
       return item_id;
     }
 
-    return Utils.find(this.data, (item) => item.id === item_id);
+    const item = Utils.find(this.data, (item) => item.id === item_id);
+    if (item === false) throw new Error(`No item with id ${item_id}`);
+    return item;
   }
 
   getCurrentTime() {
