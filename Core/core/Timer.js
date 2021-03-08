@@ -82,7 +82,8 @@ export default class Timer {
       this.stop();
     }
 
-    this.updated.dispatch(this.time[0], this.is_playing ? elapsed : 0);
+    if(Math.abs(this.time[0]-this.last_time) > 0)
+      this.updated.dispatch(this.time[0], this.is_playing ? elapsed : 0);
 
     this.last_timeStamp = timestamp;
     this.last_time = this.time[0];

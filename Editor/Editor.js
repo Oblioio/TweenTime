@@ -120,9 +120,9 @@ class Editor {
   update() {
     var time = this.timer.time[0];
     var time_changed = this.lastTime === time ? false : true;
-    if (time_changed) {
-      console.log('TIME CHANGED', this.lastTime, time);
-    }
+    // if (time_changed) {
+    //   console.log('TIME CHANGED', this.lastTime, time);
+    // }
     // console.log('TIME CHANGED!!', this.lastTime, time, time_changed);
     this.render(time, time_changed);
     this.lastTime = this.timer.time[0];
