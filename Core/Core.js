@@ -29,6 +29,9 @@ class Core {
 
   attachObject(item_id, object) {
     const item = this.getItem(item_id);
+    
+    if (item === false) console.error(`No item with id ${item_id}`);
+
     item.object = object;
     item._isDirty = true;
   }
